@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: frontend-app
+  name: react-app
   namespace: antcolony
 spec:
   replicas: 1
@@ -15,8 +15,7 @@ spec:
     spec:
       containers:
         - name: react-app
-          #image: chorba/antcolony
-          image: react-app-prod
+          image: chorba/antcolony:latest
           ports:
             - containerPort: 80
       imagePullSecrets:
