@@ -1,0 +1,35 @@
+version: '3'
+services:
+  #Spring boot app service
+  spring_boot_app:
+    container_name: spring_boot_app
+    build:
+      context: ./spring-boot-app
+      dockerfile: Dockerfile
+    ports:
+      - '8080:8080'
+    depends_on:
+      - 'db'
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/demodb
+      APP_NODE_URL: http://node_app:8081/
+
+  #Node app service
+  node_app:
+    container_name: node_app
+    build:
+      context: ./node-app
+      dockerfile: Dockerfile
+    ports:
+      - '8081:8081'
+
+  #PostgreSQL DB service
+  db:
+    image: postgres:10
+    ports:
+      - '5432:5432'
+    container_name: postgres_db
+    environment:
+      POSTGRES_PASSWORD: DemoPa$$$$
+      POSTGRES_USER: demouser
+      POSTGRES_DB: demodb

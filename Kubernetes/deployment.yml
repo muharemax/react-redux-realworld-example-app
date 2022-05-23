@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-app
+  namespace: antcolony
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: react-app
+  template:
+    metadata:
+      labels:
+        app: react-app
+    spec:
+      containers:
+        - name: react-app
+          #image: chorba/antcolony
+          image: react-app-prod
+          ports:
+            - containerPort: 80
+      imagePullSecrets:
+        - name: docker-credentials
