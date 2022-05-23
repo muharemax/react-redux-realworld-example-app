@@ -2,12 +2,12 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: frontend-ingress
-  namespace: react-app
+  namespace: antcolony
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
   rules:
-    - host: nodejs-app.test
+    - host: antcolony-frontend.test
       http:
         paths:
           - path: /
@@ -16,4 +16,4 @@ spec:
               service:
                 name: frontend-app-service
                 port:
-                  number: 4100
+                  number: 80
