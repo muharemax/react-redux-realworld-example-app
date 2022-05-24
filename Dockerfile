@@ -21,3 +21,5 @@ FROM nginx:latest
 
 #Copy production build files from builder phase to nginx
 COPY --from=builder /usr/app/build /usr/share/nginx/html
+
+CMD ["nginx", "-g", "daemon off;"]

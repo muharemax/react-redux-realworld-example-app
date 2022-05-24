@@ -15,12 +15,10 @@ spec:
     spec:
       containers:
         - name: front-app
-          image: chorba/antcolony:latest
+          image: chorba/antcolony:react-app.latest
           env:
-            - name: NODE_ENV
-              value: 'production'
             - name: REACT_APP_BACKEND_URL
-              value: 'http://node-app.test/'
+              value: http://node-app.test/api
           ports:
             - containerPort: 80
       imagePullSecrets:
@@ -32,7 +30,7 @@ metadata:
   name: frontend-service
   namespace: antcolony
 spec:
-  #type: LoadBalancer
+  type: LoadBalancer
   selector:
     app: front-app
   ports:
