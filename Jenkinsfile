@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        imageName = 'chorba/antcolony'
+        DockerHubRepo = 'chorba/antcolony'
     }
     stages {
         stage('Git Checkout') {
@@ -19,17 +19,18 @@ pipeline {
         stage('Push to Docker Hub') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'DOCKER_HUB_CREDENTIALS', passwordVariable: 'docker_hub_pwd', usernameVariable: 'docker_hub_username')]) {
-                    bat "docker login -u ${env.docker_hub_username} -p ${env.docker_hub_pwd}"
-                    bat "docker tag ${imageName} ${imageName}:${BUILD_NUMBER}"
-                    bat "docker push ${imageName}:latest"
-                    bat "docker push ${imageName}:${BUILD_NUMBER}"
+                    bat "docker tag react-app ${DockerHubRepo}:react-app.latest"
+                    bat "docker tag react-app ${DockerHubRepo}:react-app.v${BUILD_NUMBER}"
+                    bat "docker push ${DockerHubRepo}:react-app.latest"
+                    bat "docker push ${DockerHubRepo}:react-app.v${BUILD_NUMBER}"
                 }
             }
         }
         
         stage('Remove Unused docker image') {
             steps{
-                bat "docker rmi ${imageName}:${BUILD_NUMBER}"
+                bat "docker rmi ${DockerHubRepo}:react-app.latest"
+                bat "docker rmi ${DockerHubRepo}:react-app.v${BUILD_NUMBER}"
             }
         }
         
