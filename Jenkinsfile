@@ -12,7 +12,7 @@ pipeline {
         
         stage('Docker build') {
             steps {
-                bat "docker build -t ${imageName} ."
+                bat "docker build -t react-app ."
             }
         }
         
