@@ -34,13 +34,6 @@ pipeline {
                 bat "docker rmi ${DockerHubRepo}:frontend-app.v${BUILD_NUMBER}"
             }
         }
-
-        stage('Undeploy from k8s cluster') {
-            steps{
-                bat "cd Kubernetes"
-                bat "kubectl delete -f Kubernetes/frontend-deployment.yml"
-            }
-        }
         
         stage('Deploy to k8s cluster') {
             steps{
