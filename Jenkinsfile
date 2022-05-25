@@ -12,34 +12,33 @@ pipeline {
         
         stage('Docker build') {
             steps {
-                bat "docker build -t react-app ."
+                bat "docker build -t frontend-app ."
             }
         }
         
         stage('Push to Docker Hub') {
             steps {
                 withCredentials([usernamePassword(credentialsId: 'DOCKER_HUB_CREDENTIALS', passwordVariable: 'docker_hub_pwd', usernameVariable: 'docker_hub_username')]) {
-                    bat "docker tag react-app ${DockerHubRepo}:react-app.latest"
-                    bat "docker tag react-app ${DockerHubRepo}:react-app.v${BUILD_NUMBER}"
-                    bat "docker push ${DockerHubRepo}:react-app.latest"
-                    bat "docker push ${DockerHubRepo}:react-app.v${BUILD_NUMBER}"
+                    bat "docker login -u ${env.docker_hub_username} -p ${env.docker_hub_pwd}"
+                    bat "docker tag frontend-app ${DockerHubRepo}:frontend-app.latest"
+                    bat "docker tag frontend-app ${DockerHubRepo}:frontend-app.v${BUILD_NUMBER}"
+                    bat "docker push ${DockerHubRepo}:frontend-app.latest"
+                    bat "docker push ${DockerHubRepo}:frontend-app.v${BUILD_NUMBER}"
                 }
             }
         }
         
         stage('Remove Unused docker image') {
             steps{
-                bat "docker rmi ${DockerHubRepo}:react-app.latest"
-                bat "docker rmi ${DockerHubRepo}:react-app.v${BUILD_NUMBER}"
+                bat "docker rmi ${DockerHubRepo}:frontend-app.latest"
+                bat "docker rmi ${DockerHubRepo}:frontend-app.v${BUILD_NUMBER}"
             }
         }
         
         stage('Deploy to k8s cluster') {
             steps{
                 bat "cd Kubernetes"
-                bat "kubectl apply -f Kubernetes/deployment.yml"
-                bat "kubectl apply -f Kubernetes/service.yml"
-                bat "kubectl apply -f Kubernetes/ingress.yml"
+                bat "kubectl apply -f Kubernetes/frontend-deployment.yml"
             }
         }
     }
