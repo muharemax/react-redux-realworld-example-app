@@ -38,7 +38,7 @@ pipeline {
         stage('Deploy to k8s cluster') {
             steps{
                 bat "cd Kubernetes"
-                bat "kubectl apply -f Kubernetes/frontend-deployment.yml"
+                bat "kubectl apply -f Kubernetes/frontend-deploy.yml"
             }
         }
     }
