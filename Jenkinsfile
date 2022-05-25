@@ -28,7 +28,7 @@ pipeline {
             }
         }
         
-        stage('Remove Unused docker image') {
+        stage('Remove Unused docker images') {
             steps{
                 bat "docker rmi ${DockerHubRepo}:frontend-app.latest"
                 bat "docker rmi ${DockerHubRepo}:frontend-app.v${BUILD_NUMBER}"
