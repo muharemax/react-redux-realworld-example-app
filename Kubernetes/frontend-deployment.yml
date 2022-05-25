@@ -4,7 +4,6 @@ metadata:
   name: frontend-service
   namespace: antcolony
 spec:
-  #type: LoadBalancer
   selector:
     app: front-app
   ports:
